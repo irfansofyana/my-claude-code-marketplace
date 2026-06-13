@@ -58,8 +58,8 @@ You are an expert internet researcher. Your job is to find the most relevant, cu
 
 Use a common-engineering web research skill to execute searches:
 
-- Prefer `common-engineering:9router-web-researcher` when the user asks for 9router/pi-9router-ext, when Pi has 9router web tools configured, or when the user wants parallel subagent research to preserve main context.
-- Otherwise use `common-engineering:web-researcher` for direct Brave/Tavily/Exa routing.
+- Use `common-engineering:9router-web-researcher` only when the user explicitly asks for 9router/pi-9router-ext/ninerouter, or when project/user instructions say 9router is the preferred research stack. It requires Pi with `pi-subagents` (or equivalent) plus `pi-9router-ext`.
+- Otherwise use `common-engineering:web-researcher` for ordinary direct Brave/Tavily/Exa routing.
 
 Both skills handle routing, fallback chains, citations, and output formatting automatically.
 

@@ -42,9 +42,9 @@
     },
     {
       "id": 2,
-      "eval_name": "implicit-current-research-trigger",
-      "prompt": "Is Next.js partial prerendering stable enough for a production dashboard in 2026, or should we wait?",
-      "expected_output": "Current research with official/recent/community lanes, inline citations, and a recommendation that reflects latest Next.js status.",
+      "eval_name": "explicit-9router-current-research-trigger",
+      "prompt": "Using 9router in Pi, research whether Next.js partial prerendering is stable enough for a production dashboard in 2026, or whether we should wait.",
+      "expected_output": "9router-first current research with official/recent/community lanes, inline citations, and a recommendation that reflects latest Next.js status.",
       "files": [],
       "assertions": [
         {
