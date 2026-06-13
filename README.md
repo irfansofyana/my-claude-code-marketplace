@@ -12,7 +12,7 @@ This repository serves as a marketplace for reusable agent workflows across agen
 |--------|-------------|--------------|
 | **[shared-mcp](./plugins/shared-mcp/)** | **INSTALL FIRST** - MCP infrastructure for web search (Brave, Tavily, Exa) | Node.js, BRAVE_API_KEY, TAVILY_API_KEY, EXA_API_KEY |
 | **[p-assist](./plugins/p-assist/)** | Productivity: expenses, RSS, VPS | shared-mcp, N8N_API_TOKEN |
-| **[common-engineering](./plugins/common-engineering/)** | Engineering tools: code review, Mermaid diagrams, tech docs (RFCs, proposals, ADRs) | shared-mcp, mermaid-cli, CONTEXT7_API_KEY |
+| **[common-engineering](./plugins/common-engineering/)** | Engineering tools: code review, Mermaid diagrams, tech docs (RFCs, proposals, ADRs), web research | shared-mcp, optional pi-9router-ext + @tintinweb/pi-subagents, mermaid-cli, CONTEXT7_API_KEY |
 | **[sys-maint](./plugins/sys-maint/)** | System maintenance: Docker cleanup, disk analysis | macOS only |
 | **[thinking-tools](./plugins/thinking-tools/)** | Thinking tools: pressure-test ideas (idea-refinery) and resolve decision branches (decision-sparring) | None |
 | **[softskills](./plugins/softskills/)** | Office politics coach for navigating workplace dynamics | None |
@@ -36,6 +36,7 @@ Skills are model-invoked capabilities that agent runtimes can activate when trig
 | `poc-experiment` | "write a POC document", "Go/No-Go recommendation" | 3-8 page proof of concept with decision |
 | `project-management-plan` | "project plan excel", "Gantt chart", "project tracker" | Excel workbook with 4 tabs (plan, charters, budget, RAID) |
 | `web-researcher` | "search the web", "find online", "research", "look up", "debug error", "latest news about", "investigate company" | Findings with inline citations, recommendations, and source links. Routes via Brave (discovery) → Tavily (extraction) → Exa (semantic/technical) |
+| `9router-web-researcher` | explicit 9router/Pi research requests, or projects where 9router is configured as the preferred research stack | Parallel subagent research with 9router-first search/fetch, direct-tool fallback inside subagents, inline citations, and research coverage. Requires Pi with `pi-9router-ext` and `@tintinweb/pi-subagents`; use `web-researcher` for ordinary shared-mcp web research |
 
 ### thinking-tools Skills
 

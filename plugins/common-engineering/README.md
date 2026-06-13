@@ -40,6 +40,13 @@ Professional Mermaid diagram creation with automatic validation and self-healing
 
 Expert internet researcher for comprehensive topic research across ANY subject - technical debugging, news, business information, or general knowledge.
 
+This plugin provides two alternative web research skills:
+
+- `web-researcher`: default choice for ordinary web research. It routes directly through Brave, Tavily, and Exa from the `shared-mcp` plugin.
+- `9router-web-researcher`: Pi-only 9router workflow. Use it when the user explicitly asks for 9router/pi-9router-ext/ninerouter research, or when project/user instructions make 9router the preferred research stack. It requires both `pi-9router-ext` and a subagent extension such as `@tintinweb/pi-subagents`, always spawns parallel research subagents to keep the main context small, then falls back to Brave/Tavily/Exa inside those subagents when 9router tools are unavailable.
+
+If both skills are installed, generic requests like "research this online" should use `web-researcher` unless the user or project explicitly prefers 9router.
+
 **Research Capabilities:**
 - **Technical Debugging**: Find solutions to library errors, framework issues, and code problems
 - **Code Research**: API documentation, SDK usage, and implementation examples
@@ -49,12 +56,12 @@ Expert internet researcher for comprehensive topic research across ANY subject -
 
 **Key Features:**
 - ✅ **Comprehensive scope**: Handles technical, business, news, and general research
-- ✅ **Smart tool selection**: Automatically uses best research tool (Exa, Tavily, or WebSearch)
-- ✅ **Company research**: Exa's company_research for business information and LinkedIn data
-- ✅ **News optimization**: Tavily with time-based filtering for current events
-- ✅ **Code-optimized**: Leverages Exa's `get_code_context_exa` for programming research
-- ✅ **Delegates to librarian**: Automatically routes official documentation requests to librarian agent
-- ✅ **Structured output**: Executive summary, detailed findings, sources, and recommendations
+- ✅ **Smart tool selection**: Automatically uses best research tool (9router, Exa, Tavily, Brave, or WebSearch depending on installed skill and available tools)
+- ✅ **Parallel research option**: `9router-web-researcher` splits work into subagent lanes for official docs, recent/news, community evidence, comparisons, entity research, and URL extraction
+- ✅ **Company research**: Exa's company_research or 9router-backed entity routes for business information and LinkedIn data
+- ✅ **News optimization**: time-based filtering for current events
+- ✅ **Code-optimized**: Leverages official docs, code context, release notes, and community issue searches for programming research
+- ✅ **Structured output**: Executive summary, detailed findings, sources, recommendations, gaps, and research coverage
 
 ### Librarian Agent
 
@@ -162,18 +169,26 @@ mmdc --version
 
 You should see output like: `10.6.1` or similar.
 
-#### Required for Web Research: shared-mcp Plugin
+#### Required for Web Research: shared-mcp or pi-9router-ext
 
-The web research specialist uses Exa's powerful search capabilities from the `shared-mcp` plugin. Make sure you have:
+Choose the research stack that matches your client setup:
 
-1. **Installed the shared-mcp plugin**:
-   ```bash
-   /plugin install shared-mcp@ai-marketplace
-   ```
+**Standard `web-researcher`:** install `shared-mcp` first and configure Brave/Tavily/Exa keys.
 
-2. **Configured the EXA_API_KEY** as described in the [shared-mcp README](../shared-mcp/README.md)
+```bash
+/plugin install shared-mcp@ai-marketplace
+```
 
-**Note**: Without the `EXA_API_KEY` configured in shared-mcp, the web research specialist will fall back to using Claude's built-in WebSearch tool, which is less optimized for code research.
+Configure keys as described in the [shared-mcp README](../shared-mcp/README.md).
+
+**Pi `9router-web-researcher`:** install and configure both subagents and 9router in Pi.
+
+```bash
+pi install npm:@tintinweb/pi-subagents
+pi install npm:pi-9router-ext
+```
+
+Pi core intentionally does not include built-in subagents, so `@tintinweb/pi-subagents` (or an equivalent subagent extension) is required for this skill's context-isolated parallel research workflow. Then use `/9router-config` and verify with `/9router-status`. The skill uses exact Pi tool names `ninerouter_status`, `ninerouter_web_search`, and `ninerouter_web_fetch`. If 9router web routes are unavailable, it can fall back to direct Brave/Tavily/Exa tools inside subagents when those tools are installed.
 
 #### Optional for Librarian: Context7 API Key
 
@@ -269,18 +284,20 @@ The `web-research-specialist` agent is automatically invoked when you need to re
 ```
 
 **Agent behavior:**
-- For **code/API research**: Uses Exa's `get_code_context_exa` for highest quality results
-- For **company/business research**: Uses Exa's `company_research_exa` for comprehensive business information
-- For **news/current events**: Uses Tavily with time-based filtering for recent articles
-- For **official documentation**: Automatically delegates to librarian agent
-- Falls back to alternative tools if primary tool fails
+- `web-researcher` routes directly to Brave/Tavily/Exa based on query type.
+- `9router-web-researcher` always spawns 2–4 research-capable subagents in parallel via `@tintinweb/pi-subagents` or an equivalent extension, assigns adaptive lanes, and has each lane use 9router search/fetch first.
+- For **code/API research**: prioritizes official docs, release notes, code context, and community issues.
+- For **company/business research**: uses entity/company sources, pricing/status pages, and recent news.
+- For **news/current events**: uses recency-focused searches and dated sources.
+- For **official documentation**: prioritizes source-of-truth docs and may cross-check with librarian/context tools when available.
+- Falls back to alternative tools if primary tools fail.
 
 **Output format**: The agent provides structured findings with:
 1. Executive Summary (2-3 sentence overview)
-2. Detailed Findings (organized by relevance)
-3. Sources and References (direct links)
-4. Recommendations (best approaches)
-5. Additional Notes (caveats, warnings)
+2. Detailed Findings (organized by relevance with inline source citations)
+3. Recommendations (best approaches)
+4. Gaps (unknowns, stale/conflicting evidence)
+5. Research Coverage (lanes run, tool path, source types)
 
 ### TechDocs Writer Agent
 
@@ -461,6 +478,9 @@ echo $EXA_API_KEY
 # 4. Test the Web Research agent by asking Claude:
 "Research how to implement dark mode in React"
 
+# Optional: test the Pi 9router web researcher skill after installing @tintinweb/pi-subagents and pi-9router-ext:
+"Using 9router, research the latest Next.js partial prerendering guidance and summarize production readiness"
+
 # 5. Test the Librarian agent by asking Claude:
 "How do I use Supabase authentication in JavaScript?"
 
@@ -556,9 +576,11 @@ If you encounter issues:
    - Verify you can run: `echo 'graph TD; A-->B' | mmdc -i - -o /tmp/test.svg`
    - Review the skill documentation in `plugins/common-engineering/skills/mermaid/`
 2. **For Web Research issues**:
-   - Verify `EXA_API_KEY` is set: `echo $EXA_API_KEY`
-   - Check your Exa account status at https://exa.ai
-   - Try explicitly requesting code research: "Use get_code_context_exa to find..."
+   - For `web-researcher`, verify `EXA_API_KEY`, `TAVILY_API_KEY`, and `BRAVE_API_KEY` are set for `shared-mcp`
+   - For `9router-web-researcher`, verify `@tintinweb/pi-subagents` and `pi-9router-ext` are installed: `pi install npm:@tintinweb/pi-subagents` and `pi install npm:pi-9router-ext`
+   - Run `/subagents-doctor` when available, then run `/9router-config` and check `/9router-status`
+   - Confirm 9router exposes web routes and the Pi tools `ninerouter_status`, `ninerouter_web_search`, and `ninerouter_web_fetch`
+   - Try explicitly requesting code research: "Use web research to find current official docs for..."
 3. **General plugin issues**:
    - Check Claude Code plugin status: `/plugin`
    - Reload the plugin to pick up changes
