@@ -1,7 +1,7 @@
 ---
 name: 9router-web-researcher
 description: >-
-  Pi-only web research workflow for environments that have pi-9router-ext and a subagent extension such as pi-subagents configured. Use this skill when the user explicitly asks to use 9router, pi-9router-ext, ninerouter tools, or a 9router route/combo for web research, or when project/user instructions state that 9router-web-researcher is the preferred research stack. Do NOT use for ordinary web research in standard shared-mcp-only or non-Pi clients; use web-researcher instead. This skill always delegates research lanes to subagents and then synthesizes compact cited findings.
+  Pi-only web research workflow for environments that have pi-9router-ext and a subagent extension such as @tintinweb/pi-subagents configured. Use this skill when the user explicitly asks to use 9router, pi-9router-ext, ninerouter tools, or a 9router route/combo for web research, or when project/user instructions state that 9router-web-researcher is the preferred research stack. Do NOT use for ordinary web research in standard shared-mcp-only or non-Pi clients; use web-researcher instead. This skill always delegates research lanes to subagents and then synthesizes compact cited findings.
 ---
 
 # 9router Web Researcher
@@ -15,17 +15,17 @@ Expected client: Pi Coding Agent with both `pi-9router-ext` and subagent orchest
 Pi core intentionally does not include built-in subagents. Install a subagent package before relying on this skill:
 
 ```bash
-pi install npm:pi-subagents
+pi install npm:@tintinweb/pi-subagents
 pi install npm:pi-9router-ext
 ```
 
-Then configure 9router with `/9router-config` and verify it with `/9router-status`. `pi-subagents` provides the `subagent` tool and bundled agents such as `researcher` and `delegate`; other Pi subagent extensions are acceptable if they can run parallel research children with isolated context.
+Then configure 9router with `/9router-config` and verify it with `/9router-status`. `@tintinweb/pi-subagents` provides subagent orchestration; other Pi subagent extensions are acceptable if they can run parallel research children with isolated context.
 
-If no subagent tool is available, do not run direct web research in the main context. Stop and tell the user to install/configure `pi-subagents` or another subagent extension, because the main goal of this skill is context isolation.
+If no subagent tool is available, do not run direct web research in the main context. Stop and tell the user to install/configure `@tintinweb/pi-subagents` or another subagent extension, because the main goal of this skill is context isolation.
 
 ## Core Rules
 
-1. **Always spawn subagents.** For every web research task, launch 2–4 research-capable subagents in one tool turn. In `pi-subagents`, prefer the `researcher` agent; use `delegate` if `researcher` is unavailable. In other harnesses, use an equivalent general-purpose research subagent. Main agent plans lanes and synthesizes; subagents search/fetch.
+1. **Always spawn subagents.** For every web research task, launch 2–4 research-capable subagents in one tool turn. With `@tintinweb/pi-subagents`, use its available research-capable/general subagent configuration. In other harnesses, use an equivalent general-purpose research subagent. Main agent plans lanes and synthesizes; subagents search/fetch.
 2. **Keep main context lean.** Do not paste raw search pages, long excerpts, or broad result dumps into main context. Require compact lane reports.
 3. **Use exact 9router tool names.** The Pi tools are `ninerouter_status`, `ninerouter_web_search`, and `ninerouter_web_fetch`. Never invent `9router_*` tool names.
 4. **9router first.** Each subagent should call `ninerouter_status`, then `ninerouter_web_search`, then `ninerouter_web_fetch` for top URLs that support important claims.
@@ -66,7 +66,7 @@ Give each subagent 3–6 concrete queries and tell it to add variants only when 
 
 ## Step 3: Spawn Parallel Subagents
 
-Launch 2–4 research-capable subagents in the same turn. With `pi-subagents`, use the `subagent` tool in parallel mode and prefer the bundled `researcher` agent for each lane. Use adaptive lanes:
+Launch 2–4 research-capable subagents in the same turn. With `@tintinweb/pi-subagents`, use the available subagent tool in parallel mode and pick a research-capable/general child agent for each lane. Use adaptive lanes:
 
 - **Official/source-of-truth lane**: official docs, specs, release notes, vendor blog, status/pricing pages.
 - **Freshness/news lane**: recent announcements, news, dated changes, current status.
@@ -176,7 +176,7 @@ If the subagent tool is unavailable:
 
 1. Do not perform direct research in the main context.
 2. Answer with setup guidance:
-   - install subagents: `pi install npm:pi-subagents`
+   - install subagents: `pi install npm:@tintinweb/pi-subagents`
    - restart/reload Pi if needed
    - ask Pi to "Check whether subagents are configured correctly" or run `/subagents-doctor` when available
 

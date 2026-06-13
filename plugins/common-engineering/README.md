@@ -43,7 +43,7 @@ Expert internet researcher for comprehensive topic research across ANY subject -
 This plugin provides two alternative web research skills:
 
 - `web-researcher`: default choice for ordinary web research. It routes directly through Brave, Tavily, and Exa from the `shared-mcp` plugin.
-- `9router-web-researcher`: Pi-only 9router workflow. Use it when the user explicitly asks for 9router/pi-9router-ext/ninerouter research, or when project/user instructions make 9router the preferred research stack. It requires both `pi-9router-ext` and a subagent extension such as `pi-subagents`, always spawns parallel research subagents to keep the main context small, then falls back to Brave/Tavily/Exa inside those subagents when 9router tools are unavailable.
+- `9router-web-researcher`: Pi-only 9router workflow. Use it when the user explicitly asks for 9router/pi-9router-ext/ninerouter research, or when project/user instructions make 9router the preferred research stack. It requires both `pi-9router-ext` and a subagent extension such as `@tintinweb/pi-subagents`, always spawns parallel research subagents to keep the main context small, then falls back to Brave/Tavily/Exa inside those subagents when 9router tools are unavailable.
 
 If both skills are installed, generic requests like "research this online" should use `web-researcher` unless the user or project explicitly prefers 9router.
 
@@ -184,11 +184,11 @@ Configure keys as described in the [shared-mcp README](../shared-mcp/README.md).
 **Pi `9router-web-researcher`:** install and configure both subagents and 9router in Pi.
 
 ```bash
-pi install npm:pi-subagents
+pi install npm:@tintinweb/pi-subagents
 pi install npm:pi-9router-ext
 ```
 
-Pi core intentionally does not include built-in subagents, so `pi-subagents` (or an equivalent subagent extension) is required for this skill's context-isolated parallel research workflow. Then use `/9router-config` and verify with `/9router-status`. The skill uses exact Pi tool names `ninerouter_status`, `ninerouter_web_search`, and `ninerouter_web_fetch`. If 9router web routes are unavailable, it can fall back to direct Brave/Tavily/Exa tools inside subagents when those tools are installed.
+Pi core intentionally does not include built-in subagents, so `@tintinweb/pi-subagents` (or an equivalent subagent extension) is required for this skill's context-isolated parallel research workflow. Then use `/9router-config` and verify with `/9router-status`. The skill uses exact Pi tool names `ninerouter_status`, `ninerouter_web_search`, and `ninerouter_web_fetch`. If 9router web routes are unavailable, it can fall back to direct Brave/Tavily/Exa tools inside subagents when those tools are installed.
 
 #### Optional for Librarian: Context7 API Key
 
@@ -285,7 +285,7 @@ The `web-research-specialist` agent is automatically invoked when you need to re
 
 **Agent behavior:**
 - `web-researcher` routes directly to Brave/Tavily/Exa based on query type.
-- `9router-web-researcher` always spawns 2–4 research-capable subagents in parallel via `pi-subagents` or an equivalent extension, assigns adaptive lanes, and has each lane use 9router search/fetch first.
+- `9router-web-researcher` always spawns 2–4 research-capable subagents in parallel via `@tintinweb/pi-subagents` or an equivalent extension, assigns adaptive lanes, and has each lane use 9router search/fetch first.
 - For **code/API research**: prioritizes official docs, release notes, code context, and community issues.
 - For **company/business research**: uses entity/company sources, pricing/status pages, and recent news.
 - For **news/current events**: uses recency-focused searches and dated sources.
@@ -478,7 +478,7 @@ echo $EXA_API_KEY
 # 4. Test the Web Research agent by asking Claude:
 "Research how to implement dark mode in React"
 
-# Optional: test the Pi 9router web researcher skill after installing pi-subagents and pi-9router-ext:
+# Optional: test the Pi 9router web researcher skill after installing @tintinweb/pi-subagents and pi-9router-ext:
 "Using 9router, research the latest Next.js partial prerendering guidance and summarize production readiness"
 
 # 5. Test the Librarian agent by asking Claude:
@@ -577,7 +577,7 @@ If you encounter issues:
    - Review the skill documentation in `plugins/common-engineering/skills/mermaid/`
 2. **For Web Research issues**:
    - For `web-researcher`, verify `EXA_API_KEY`, `TAVILY_API_KEY`, and `BRAVE_API_KEY` are set for `shared-mcp`
-   - For `9router-web-researcher`, verify `pi-subagents` and `pi-9router-ext` are installed: `pi install npm:pi-subagents` and `pi install npm:pi-9router-ext`
+   - For `9router-web-researcher`, verify `@tintinweb/pi-subagents` and `pi-9router-ext` are installed: `pi install npm:@tintinweb/pi-subagents` and `pi install npm:pi-9router-ext`
    - Run `/subagents-doctor` when available, then run `/9router-config` and check `/9router-status`
    - Confirm 9router exposes web routes and the Pi tools `ninerouter_status`, `ninerouter_web_search`, and `ninerouter_web_fetch`
    - Try explicitly requesting code research: "Use web research to find current official docs for..."
