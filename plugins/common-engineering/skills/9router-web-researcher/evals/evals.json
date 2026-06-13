@@ -1,0 +1,149 @@
+{
+  "skill_name": "9router-web-researcher",
+  "evals": [
+    {
+      "id": 1,
+      "eval_name": "debugging-postgres-parallel-research",
+      "prompt": "I'm getting ECONNREFUSED 127.0.0.1:5432 when connecting to PostgreSQL from my Node.js app. Research current causes and fixes, including Docker-related issues.",
+      "expected_output": "Parallel 9router-first research with inline citations covering multiple causes, actionable fixes, and research coverage showing subagent lanes.",
+      "files": [],
+      "assertions": [
+        {
+          "name": "has-inline-citations",
+          "description": "Output contains inline source citations in (source: URL) format",
+          "type": "contains_pattern",
+          "pattern": "\\(source: https?://"
+        },
+        {
+          "name": "mentions-parallel-lanes",
+          "description": "Output includes research coverage or lane information from parallel subagents",
+          "type": "contains_pattern",
+          "pattern": "(?i)(research coverage|lanes run|subagent|parallel)"
+        },
+        {
+          "name": "mentions-9router-tooling",
+          "description": "Output is transparent that 9router/ninerouter tooling was used or that fallback occurred",
+          "type": "contains_pattern",
+          "pattern": "(?i)(9router|ninerouter|fallback)"
+        },
+        {
+          "name": "covers-multiple-causes",
+          "description": "Output covers at least 3 distinct causes of ECONNREFUSED",
+          "type": "llm_judge",
+          "criteria": "The output identifies at least 3 distinct root causes such as PostgreSQL not running, wrong host/port, Docker/container networking issues, firewall rules, listen_addresses, or pg_hba.conf/access configuration."
+        },
+        {
+          "name": "includes-actionable-fix",
+          "description": "Output includes at least one concrete command or config change",
+          "type": "llm_judge",
+          "criteria": "The output includes concrete actionable fixes such as pg_isready, systemctl/pg_ctl commands, Docker host changes, connection string updates, or PostgreSQL config changes."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "eval_name": "implicit-current-research-trigger",
+      "prompt": "Is Next.js partial prerendering stable enough for a production dashboard in 2026, or should we wait?",
+      "expected_output": "Current research with official/recent/community lanes, inline citations, and a recommendation that reflects latest Next.js status.",
+      "files": [],
+      "assertions": [
+        {
+          "name": "has-inline-citations",
+          "description": "Output contains inline source citations in (source: URL) format",
+          "type": "contains_pattern",
+          "pattern": "\\(source: https?://"
+        },
+        {
+          "name": "reflects-current-context",
+          "description": "Output addresses current/stability context rather than only generic background",
+          "type": "llm_judge",
+          "criteria": "The output discusses the current maturity/stability of Next.js partial prerendering with version, release, documentation, or recent community context."
+        },
+        {
+          "name": "has-recommendation",
+          "description": "Output gives a clear wait/adopt/conditional recommendation",
+          "type": "llm_judge",
+          "criteria": "The output includes a recommendation such as adopt for limited cases, wait, or proceed conditionally, with tradeoffs and caveats."
+        },
+        {
+          "name": "shows-research-coverage",
+          "description": "Output includes research coverage, lanes, or source-type transparency",
+          "type": "contains_pattern",
+          "pattern": "(?i)(research coverage|official|community|recent|lanes run)"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "eval_name": "comparison-community-evidence",
+      "prompt": "Compare Temporal vs BullMQ for a Node.js microservices platform. I care about operational overhead, durability, learning curve, and what teams report in production.",
+      "expected_output": "Parallel comparative research with official, community, and comparison lanes; inline citations; decision framework; and gaps/conflicts.",
+      "files": [],
+      "assertions": [
+        {
+          "name": "has-inline-citations",
+          "description": "Output contains inline source citations in (source: URL) format",
+          "type": "contains_pattern",
+          "pattern": "\\(source: https?://"
+        },
+        {
+          "name": "covers-both-tools",
+          "description": "Output covers both Temporal and BullMQ with meaningful detail",
+          "type": "llm_judge",
+          "criteria": "The output discusses Temporal and BullMQ specifically, including real differences rather than generic queue advice."
+        },
+        {
+          "name": "covers-tradeoff-dimensions",
+          "description": "Output addresses requested dimensions",
+          "type": "llm_judge",
+          "criteria": "The output covers operational overhead, durability/reliability, learning curve, and production/team experience or community reports."
+        },
+        {
+          "name": "has-decision-framework",
+          "description": "Output includes actionable guidance for when to choose each tool",
+          "type": "llm_judge",
+          "criteria": "The output includes recommendations or a decision framework explaining when Temporal fits better and when BullMQ fits better."
+        },
+        {
+          "name": "mentions-parallel-or-lanes",
+          "description": "Output signals that parallel subagent lanes were used",
+          "type": "contains_pattern",
+          "pattern": "(?i)(parallel|subagent|lanes run|research coverage)"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "eval_name": "known-url-extraction-plus-verification",
+      "prompt": "Read the pi-9router-ext README at https://github.com/irfansofyana/pi-9router-ext and summarize the web search/fetch capabilities. Verify any setup steps against current package information if possible.",
+      "expected_output": "URL extraction lane plus verification lane summarizing 9router web tools, setup commands, and gaps with citations.",
+      "files": [],
+      "assertions": [
+        {
+          "name": "has-inline-citations",
+          "description": "Output contains inline source citations in (source: URL) format",
+          "type": "contains_pattern",
+          "pattern": "\\(source: https?://"
+        },
+        {
+          "name": "covers-web-tools",
+          "description": "Output names the 9router web search/fetch tools or endpoints",
+          "type": "contains_pattern",
+          "pattern": "(?i)(ninerouter_web_search|ninerouter_web_fetch|/v1/search|/v1/web/fetch|web search|web fetch)"
+        },
+        {
+          "name": "covers-setup",
+          "description": "Output includes setup/configuration steps",
+          "type": "llm_judge",
+          "criteria": "The output mentions installing pi-9router-ext and configuring or verifying 9router, such as pi install npm:pi-9router-ext, /9router-config, /9router-status, or related environment variables."
+        },
+        {
+          "name": "has-url-and-verification-lanes",
+          "description": "Output shows URL extraction plus a verification/checking lane or equivalent coverage",
+          "type": "llm_judge",
+          "criteria": "The output indicates the provided URL was fetched/extracted and at least one additional source or current package information was checked, or explains why verification could not be completed."
+        }
+      ]
+    }
+  ]
+}
