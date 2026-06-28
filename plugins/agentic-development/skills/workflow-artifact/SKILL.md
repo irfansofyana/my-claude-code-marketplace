@@ -17,6 +17,16 @@ docs/ai-workflow/YYYY-MM-DD-<task-slug>.md
 
 Use an existing repo convention instead when one is obvious.
 
+If the path already exists, update it when it is the same task. For a different task on the same day, append a short distinguishing suffix such as `-2` or a more specific slug.
+
+## Lifecycle
+
+Default to a repository document that is eligible for version control, not a gitignored scratch file, when the artifact is meant to survive agent sessions. Do not commit it unless the user asks or the repo workflow explicitly requires it.
+
+Use a repo-ignored scratch location only when the artifact is local-only or disposable. Mark scratch artifacts clearly and delete them before finishing unless they are still needed for handoff.
+
+When the task completes, set Current Status to `Done`, `Blocked`, or `Handoff`, refresh Verification and Handoff, and either keep the artifact as useful project memory or remove/archive it if it was only live working state.
+
 ## When To Create Or Update
 
 Create before implementation for large/risky, multi-agent, interrupted, multi-session, or continuity-heavy medium work. Update after meaningful plan changes, consequential decisions, research findings, verification, interruption, or handoff.

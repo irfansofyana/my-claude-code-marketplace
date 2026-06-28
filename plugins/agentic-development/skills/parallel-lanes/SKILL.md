@@ -7,6 +7,10 @@ description: Use when development work has independent lanes for research, codeb
 
 Use parallelism when independence is real.
 
+## Capability Check
+
+Before defining lanes, name the available execution mechanism: subagents, parallel tool calls, or sequential fallback. If the runtime has no subagent or parallel-tool support, collapse the lanes into sequential tasks while keeping the same lane contract and synthesis.
+
 ## When To Use
 
 - Tiny work: skip.
@@ -14,6 +18,8 @@ Use parallelism when independence is real.
 - Medium/large work: use when available for research, codebase exploration, migration inventory, validation, review, UI checks, or security passes.
 
 ## Lane Hierarchy
+
+Use the strongest available mechanism:
 
 1. Subagents for independent reasoning or fresh-eye review.
 2. Parallel tool calls for independent file reads, searches, metadata checks, or commands.
