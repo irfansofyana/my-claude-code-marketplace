@@ -23,6 +23,11 @@
 			"description": "Foundational engineering tools for diagram generation, technical documentation, and development workflows"
 		},
 		{
+			"name": "agentic-development",
+			"source": "./plugins/agentic-development",
+			"description": "Context-scaled AI coding workflows for shared understanding, research, parallel lanes, verification, and handoff"
+		},
+		{
 			"name": "sys-maint",
 			"source": "./plugins/sys-maint",
 			"description": "System maintenance and cleanup utilities for Docker and disk space"
