@@ -13,6 +13,7 @@ This repository serves as a marketplace for reusable agent workflows across agen
 | **[shared-mcp](./plugins/shared-mcp/)** | **INSTALL FIRST** - MCP infrastructure for web search (Brave, Tavily, Exa) | Node.js, BRAVE_API_KEY, TAVILY_API_KEY, EXA_API_KEY |
 | **[p-assist](./plugins/p-assist/)** | Productivity: expenses, RSS, VPS | shared-mcp, N8N_API_TOKEN |
 | **[common-engineering](./plugins/common-engineering/)** | Engineering tools: code review, Mermaid diagrams, tech docs (RFCs, proposals, ADRs), web research | shared-mcp, optional pi-9router-ext + @tintinweb/pi-subagents, mermaid-cli, CONTEXT7_API_KEY |
+| **[agentic-development](./plugins/agentic-development/)** | Context-scaled AI coding workflows: shared understanding, research gates, parallel lanes, verification, and handoff artifacts | None |
 | **[sys-maint](./plugins/sys-maint/)** | System maintenance: Docker cleanup, disk analysis | macOS only |
 | **[thinking-tools](./plugins/thinking-tools/)** | Thinking tools: pressure-test ideas (idea-refinery) and resolve decision branches (decision-sparring) | None |
 | **[softskills](./plugins/softskills/)** | Office politics coach for navigating workplace dynamics | None |
@@ -22,6 +23,17 @@ See individual plugin READMEs for detailed setup instructions.
 ## Available Skills
 
 Skills are model-invoked capabilities that agent runtimes can activate when triggered by natural language. They are organized by plugin:
+
+### agentic-development Skills
+
+| Skill | Trigger Phrases | Output |
+|-------|-----------------|--------|
+| `agentic-development` | starting/planning/implementing/refactoring/debugging/verifying non-trivial AI-assisted development work | Context-scaled development loop with the smallest safe mode and routed gates |
+| `shared-understanding` | vague request, "grill me", unclear scope, challenge assumptions, unsure what to build | One-question-at-a-time clarification until goal, scope, constraints, success criteria, and next action are clear |
+| `research-gate` | latest/current docs, prior art, best practices, external API, error message, migration, comparison | Research decision with source links when research is used, or a clear skip reason |
+| `parallel-lanes` | subagents, parallel research, independent validation/review/inventory lanes | Lane plan and synthesis for subagents, parallel tool calls, or sequential fallback |
+| `verification-gate` | verify changes, choose tests/checks, prove it works, manual QA, Terraform validate/plan | Project-shaped verification evidence and remaining risk |
+| `workflow-artifact` | large/risky/multi-session/multi-agent work, handoff, durable plan | `docs/ai-workflow/YYYY-MM-DD-<task-slug>.md` live artifact for continuity |
 
 ### common-engineering Skills
 
@@ -77,6 +89,7 @@ Reload: `source ~/.zshrc` or `source ~/.bashrc`
 /plugin install shared-mcp@ai-marketplace     # REQUIRED - install first
 /plugin install p-assist@ai-marketplace       # Optional
 /plugin install common-engineering@ai-marketplace  # Optional
+/plugin install agentic-development@ai-marketplace # Optional
 /plugin install sys-maint@ai-marketplace      # Optional (macOS only)
 /plugin install thinking-tools@ai-marketplace # Optional
 /plugin install softskills@ai-marketplace     # Optional
